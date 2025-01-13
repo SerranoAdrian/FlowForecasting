@@ -52,6 +52,25 @@ class StationNetworkSimul:
         # total_trafic = sum([node['traffic'] for node in nodes_traffic.values()])
         # normalized_nodes_traffic = {node_idx : {'traffic' : node['traffic']/total_trafic} for node_idx, node in nodes_traffic.items()}
         nx.set_node_attributes(self.network_graph, nodes_traffic)
+    
+    def set_edges_traffic(self, df_flow):
+        edges_traffic = {edge : {'traffic' : 0} for edge in self.network_graph.edges}
+        self.shortest_path_cache = {path_idx : [] for path_idx in range(len(df_flow))}
+        self.shortest_path_cache_reverse = {edge : [] for edge in self.network_graph.edges}
+        for path_idx in range(len(df_flow)):
+            path = df_flow.iloc[path_idx]
+            start_station = path['de']
+            end_station = path['vers']
+            flow = path['nombre']
+            best_path = self.get_best_path(self.network_graph, start_station, end_station)
+            if best_path is not None:
+                for edge in nx.utils.pairwise(best_path):
+                    edges_traffic[edge]['traffic']+=flow
+                    self.shortest_path_cache[path_idx].append(edge)
+                    self.shortest_path_cache_reverse[edge].append(path_idx)
+
+        nx.set_edge_attributes(self.network_graph, edges_traffic)
+    
 
     def get_best_path(self, G, start_station, end_station):
         lb_path_weight = 0
@@ -83,9 +102,46 @@ class StationNetworkSimul:
                     graph_edges.remove(deleted_edge)
                     is_deletable = True
                     removed_edges.append(deleted_edge)
+
         
         return degraded_graph, removed_edges
     
+    def update_degraded_network_nodes_traffic(self, new_net, removed_edges, df_flow):
+        affected_paths = set()
+        for removed_edge in removed_edges:
+            affected_paths = affected_paths.union(set(self.shortest_path_cache_reverse[removed_edge]))
+
+        #updating traffic for all the affected pathes
+        for path_idx in affected_paths:
+            affected_edges = self.shortest_path_cache[path_idx]
+            
+            #removing traffic calculated for nodes in the initial path
+            new_net.nodes[affected_edges[0][0]]['traffic']-=df_flow.iloc[path_idx]['nombre']
+            for edge in affected_edges:
+                new_net.nodes[edge[1]]['traffic']-=df_flow.iloc[path_idx]['nombre']
+            
+            #adding traffic for all nodes in the new path
+            new_path = nx.dijkstra_path(new_net, affected_edges[0][0], affected_edges[-1][-1])
+            for node in new_path:
+                new_net.nodes[node]['traffic']+=df_flow.iloc[path_idx]['nombre']
+    def update_degraded_network_edges_traffic(self, new_net, removed_edges, df_flow):
+        affected_paths = set()
+        for removed_edge in removed_edges:
+            affected_paths = affected_paths.union(set(self.shortest_path_cache_reverse[removed_edge]))
+
+        #updating traffic for all the affected pathes
+        for path_idx in affected_paths:
+            affected_edges = self.shortest_path_cache[path_idx]
+            
+            #removing traffic calculated for nodes in the initial path
+            for edge in affected_edges:
+                if new_net.has_edge(*edge):
+                    new_net.edges[edge]['traffic']-=df_flow.iloc[path_idx]['nombre']
+            
+            new_path = nx.dijkstra_path(new_net, affected_edges[0][0], affected_edges[-1][-1])
+            #adding traffic for all nodes in the new path
+            for edge in nx.utils.pairwise(new_path):
+                new_net.edges[edge]['traffic']+=df_flow.iloc[path_idx]['nombre']
     def _init_network_dicts(self, df_stations: pd.DataFrame):
         self.network_stations = {station : {} for station in df_stations['de Station'].unique()}
         self.reverse_network_stations = {}
