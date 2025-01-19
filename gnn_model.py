@@ -10,6 +10,7 @@ class StationFlowGNN(nn.Module):
         self.conv2 = GCNConv(hidden_dim, hidden_dim)
         self.fc = nn.Linear(hidden_dim, output_dim)  # Output_dim = 1 pour chaque nœud
         self.relu = nn.ReLU()
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
@@ -18,7 +19,7 @@ class StationFlowGNN(nn.Module):
         x = self.relu(self.conv2(x, edge_index))  # Deuxième couche GCN
         # Projection sur une seule dimension pour chaque nœud (flux de passagers)
         x = self.fc(x)
-        return x  # Sortie de dimension [N, 1], où N est le nombre de nœuds
+        return self.sigmoid(x)  # Sortie de dimension [N, 1], où N est le nombre de nœuds
 
 
 class InterStationFlowGNN(nn.Module):

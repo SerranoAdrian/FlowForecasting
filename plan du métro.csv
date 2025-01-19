@@ -101,7 +101,6 @@ de Ligne,de Station,vers Ligne,vers Station
 6,Nation,1,Nation
 6,Nation,2,Nation
 6,Nation,9,Nation
-7,La Courneuve - 8 Mai 1945, 1,La Courneuve - 8 Mai 1945
 7,Stalingrad,2,Stalingrad
 7,Stalingrad,5,Stalingrad
 7,Gare de l'Est,4,Gare de l'Est
@@ -255,7 +254,6 @@ de Ligne,de Station,vers Ligne,vers Station
 1,Saint-Mandé,1,Porte de Vincennes
 1,Bérault,1,Saint-Mandé
 1,Château de Vincennes,1,Bérault
-2,Porte Dauphine,2,Château de Vincennes
 2,Victor Hugo,2,Porte Dauphine
 2,Charles de Gaulle - Étoile,2,Victor Hugo
 2,Ternes,2,Charles de Gaulle - Étoile
@@ -280,7 +278,6 @@ de Ligne,de Station,vers Ligne,vers Station
 2,Alexandre Dumas,2,Philippe Auguste
 2,Avron,2,Alexandre Dumas
 2,Nation,2,Avron
-3,Pont de Levallois - Bécon,3,Nation
 3,Anatole France,3,Pont de Levallois - Bécon
 3,Louise Michel,3,Anatole France
 3,Porte de Champerret,3,Louise Michel
@@ -308,7 +305,6 @@ de Ligne,de Station,vers Ligne,vers Station
 3bis,Gambetta,3bis,Gallieni
 3bis,Pelleport,3bis,Gambetta
 3bis,Porte des Lilas,3bis,Pelleport
-4,Porte de Clignancourt,4,Porte des Lilas
 4,Simplon,4,Porte de Clignancourt
 4,Marcadet - Poissonniers,4,Simplon
 4,Château Rouge,4,Marcadet - Poissonniers
@@ -337,7 +333,6 @@ de Ligne,de Station,vers Ligne,vers Station
 4,Mairie de Montrouge,4,Porte d'Orléans
 4,Barbara,4,Mairie de Montrouge
 4,Bagneux - Lucie Aubrac,4,Barbara
-5,Bobigny - Pablo Picasso,5,Bagneux - Lucie Aubrac
 5,Bobigny - Pantin - Raymond Queneau,5,Bobigny - Pablo Picasso
 5,Église de Pantin,5,Bobigny - Pantin - Raymond Queneau
 5,Hoche,5,Église de Pantin
@@ -359,7 +354,6 @@ de Ligne,de Station,vers Ligne,vers Station
 5,Saint-Marcel,5,Gare d'Austerlitz
 5,Campo-Formio,5,Saint-Marcel
 5,Place d'Italie,5,Campo-Formio
-6,Charles de Gaulle - Étoile,6,Place d'Italie
 6,Kléber,6,Charles de Gaulle - Étoile
 6,Boissière,6,Kléber
 6,Trocadéro,6,Boissière
@@ -387,7 +381,6 @@ de Ligne,de Station,vers Ligne,vers Station
 6,Bel-Air,6,Daumesnil
 6,Picpus,6,Bel-Air
 6,Nation,6,Picpus
-7,La Courneuve - 8 Mai 1945,7,Nation
 7,Fort d'Aubervilliers,7,La Courneuve - 8 Mai 1945
 7,Aubervilliers - Pantin - Quatre Chemins,7,Fort d'Aubervilliers
 7,Porte de la Villette,7,Aubervilliers - Pantin - Quatre Chemins
@@ -425,7 +418,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7,Porte d'Ivry,7,Porte de Choisy
 7,Pierre et Marie Curie,7,Porte d'Ivry
 7,Mairie d'Ivry,7,Pierre et Marie Curie
-7bis,Louis Blanc,7bis,Mairie d'Ivry
 7bis,Jaurès,7bis,Louis Blanc
 7bis,Bolivar,7bis,Jaurès
 7bis,Buttes Chaumont,7bis,Bolivar
@@ -433,7 +425,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7bis,Danube,7bis,Botzaris
 7bis,Place des Fêtes,7bis,Danube
 7bis,Pré-Saint-Gervais,7bis,Place des Fêtes
-8,Balard,8,Pré-Saint-Gervais
 8,Lourmel,8,Balard
 8,Boucicaut,8,Lourmel
 8,Félix Faure,8,Boucicaut
@@ -471,7 +462,6 @@ de Ligne,de Station,vers Ligne,vers Station
 8,Créteil - Université,8,Créteil - L'Échat
 8,Créteil - Préfecture,8,Créteil - Université
 8,Pointe du Lac,8,Créteil - Préfecture
-9,Pont de Sèvres,9,Pointe du Lac
 9,Billancourt,9,Pont de Sèvres
 9,Marcel Sembat,9,Billancourt
 9,Porte de Saint-Cloud,9,Marcel Sembat
@@ -508,7 +498,6 @@ de Ligne,de Station,vers Ligne,vers Station
 9,Robespierre,9,Porte de Montreuil
 9,Croix de Chavaux,9,Robespierre
 9,Mairie de Montreuil,9,Croix de Chavaux
-10,Boulogne - Pont de Saint-Cloud,10,Mairie de Montreuil
 10,Boulogne - Jean Jaurès,10,Boulogne - Pont de Saint-Cloud
 10,Porte d'Auteuil,10,Boulogne - Jean Jaurès
 10,Michel-Ange - Molitor,10,Porte d'Auteuil
@@ -544,7 +533,6 @@ de Ligne,de Station,vers Ligne,vers Station
 11,Télégraphe,11,Place des Fêtes
 11,Porte des Lilas,11,Télégraphe
 11,Mairie des Lilas,11,Porte des Lilas
-12,Mairie d'Aubervilliers,12,Mairie des Lilas
 12,Aimé Césaire,12,Mairie d'Aubervilliers
 12,Front Populaire,12,Aimé Césaire
 12,Porte de la Chapelle,12,Front Populaire
@@ -575,7 +563,6 @@ de Ligne,de Station,vers Ligne,vers Station
 12,Porte de Versailles,12,Convention
 12,Corentin Celton,12,Porte de Versailles
 12,Mairie d'Issy,12,Corentin Celton
-13,Les Courtilles,13,Mairie d'Issy
 13,Les Agnettes,13,Les Courtilles
 13,Gabriel Péri,13,Les Agnettes
 13,Mairie de Clichy,13,Gabriel Péri
@@ -644,7 +631,6 @@ de Ligne,de Station,vers Ligne,vers Station
 1,Porte de Vincennes,1,Saint-Mandé
 1,Saint-Mandé,1,Bérault
 1,Bérault,1,Château de Vincennes
-2,Château de Vincennes,2,Porte Dauphine
 2,Porte Dauphine,2,Victor Hugo
 2,Victor Hugo,2,Charles de Gaulle - Étoile
 2,Charles de Gaulle - Étoile,2,Ternes
@@ -669,7 +655,6 @@ de Ligne,de Station,vers Ligne,vers Station
 2,Philippe Auguste,2,Alexandre Dumas
 2,Alexandre Dumas,2,Avron
 2,Avron,2,Nation
-3,Nation,3,Pont de Levallois - Bécon
 3,Pont de Levallois - Bécon,3,Anatole France
 3,Anatole France,3,Louise Michel
 3,Louise Michel,3,Porte de Champerret
@@ -697,7 +682,6 @@ de Ligne,de Station,vers Ligne,vers Station
 3bis,Gallieni,3bis,Gambetta
 3bis,Gambetta,3bis,Pelleport
 3bis,Pelleport,3bis,Porte des Lilas
-4,Porte des Lilas,4,Porte de Clignancourt
 4,Porte de Clignancourt,4,Simplon
 4,Simplon,4,Marcadet - Poissonniers
 4,Marcadet - Poissonniers,4,Château Rouge
@@ -726,7 +710,6 @@ de Ligne,de Station,vers Ligne,vers Station
 4,Porte d'Orléans,4,Mairie de Montrouge
 4,Mairie de Montrouge,4,Barbara
 4,Barbara,4,Bagneux - Lucie Aubrac
-5,Bagneux - Lucie Aubrac,5,Bobigny - Pablo Picasso
 5,Bobigny - Pablo Picasso,5,Bobigny - Pantin - Raymond Queneau
 5,Bobigny - Pantin - Raymond Queneau,5,Église de Pantin
 5,Église de Pantin,5,Hoche
@@ -748,7 +731,6 @@ de Ligne,de Station,vers Ligne,vers Station
 5,Gare d'Austerlitz,5,Saint-Marcel
 5,Saint-Marcel,5,Campo-Formio
 5,Campo-Formio,5,Place d'Italie
-6,Place d'Italie,6,Charles de Gaulle - Étoile
 6,Charles de Gaulle - Étoile,6,Kléber
 6,Kléber,6,Boissière
 6,Boissière,6,Trocadéro
@@ -776,7 +758,6 @@ de Ligne,de Station,vers Ligne,vers Station
 6,Daumesnil,6,Bel-Air
 6,Bel-Air,6,Picpus
 6,Picpus,6,Nation
-7,Nation,7,La Courneuve - 8 Mai 1945
 7,La Courneuve - 8 Mai 1945,7,Fort d'Aubervilliers
 7,Fort d'Aubervilliers,7,Aubervilliers - Pantin - Quatre Chemins
 7,Aubervilliers - Pantin - Quatre Chemins,7,Porte de la Villette
@@ -814,7 +795,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7,Porte de Choisy,7,Porte d'Ivry
 7,Porte d'Ivry,7,Pierre et Marie Curie
 7,Pierre et Marie Curie,7,Mairie d'Ivry
-7bis,Mairie d'Ivry,7bis,Louis Blanc
 7bis,Louis Blanc,7bis,Jaurès
 7bis,Jaurès,7bis,Bolivar
 7bis,Bolivar,7bis,Buttes Chaumont
@@ -822,7 +802,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7bis,Botzaris,7bis,Danube
 7bis,Danube,7bis,Place des Fêtes
 7bis,Place des Fêtes,7bis,Pré-Saint-Gervais
-8,Pré-Saint-Gervais,8,Balard
 8,Balard,8,Lourmel
 8,Lourmel,8,Boucicaut
 8,Boucicaut,8,Félix Faure
@@ -860,7 +839,6 @@ de Ligne,de Station,vers Ligne,vers Station
 8,Créteil - L'Échat,8,Créteil - Université
 8,Créteil - Université,8,Créteil - Préfecture
 8,Créteil - Préfecture,8,Pointe du Lac
-9,Pointe du Lac,9,Pont de Sèvres
 9,Pont de Sèvres,9,Billancourt
 9,Billancourt,9,Marcel Sembat
 9,Marcel Sembat,9,Porte de Saint-Cloud
@@ -897,7 +875,6 @@ de Ligne,de Station,vers Ligne,vers Station
 9,Porte de Montreuil,9,Robespierre
 9,Robespierre,9,Croix de Chavaux
 9,Croix de Chavaux,9,Mairie de Montreuil
-10,Mairie de Montreuil,10,Boulogne - Pont de Saint-Cloud
 10,Boulogne - Pont de Saint-Cloud,10,Boulogne - Jean Jaurès
 10,Boulogne - Jean Jaurès,10,Porte d'Auteuil
 10,Porte d'Auteuil,10,Michel-Ange - Molitor
@@ -933,7 +910,6 @@ de Ligne,de Station,vers Ligne,vers Station
 11,Place des Fêtes,11,Télégraphe
 11,Télégraphe,11,Porte des Lilas
 11,Porte des Lilas,11,Mairie des Lilas
-12,Mairie des Lilas,12,Mairie d'Aubervilliers
 12,Mairie d'Aubervilliers,12,Aimé Césaire
 12,Aimé Césaire,12,Front Populaire
 12,Front Populaire,12,Porte de la Chapelle
@@ -964,7 +940,6 @@ de Ligne,de Station,vers Ligne,vers Station
 12,Convention,12,Porte de Versailles
 12,Porte de Versailles,12,Corentin Celton
 12,Corentin Celton,12,Mairie d'Issy
-13,Mairie d'Issy,13,Les Courtilles
 13,Les Courtilles,13,Les Agnettes
 13,Les Agnettes,13,Gabriel Péri
 13,Gabriel Péri,13,Mairie de Clichy
