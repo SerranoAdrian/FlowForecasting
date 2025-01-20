@@ -1,10 +1,8 @@
 import pandas as pd
 import networkx as nx
-from pyvis.network import Network
 import random
 from itertools import chain, product
 import geopy.distance
-import numpy as np
 from copy import deepcopy
 
 class StationNetworkSimul:
@@ -18,21 +16,18 @@ class StationNetworkSimul:
         for edge in self.network_graph.edges:
             start_node = self.network_graph.nodes[edge[0]]
             end_node = self.network_graph.nodes[edge[1]]
-            distance = geopy.distance.geodesic((start_node['lat'], start_node['lon']), (end_node['lat'], end_node['lon'])).km
+            distance = geopy.distance.geodesic((start_node['y'], start_node['x']), (end_node['y'], end_node['x'])).km
             self.network_graph.edges[edge]['weight'] = 1/distance if distance != 0 else 1.0
     
 
-    def set_nodes_traffic(self, df_flow):
+    def set_nodes_traffic(self, path_flows):
         nodes_traffic = {node_idx : {'traffic' : 0} for node_idx in self.network_graph.nodes}
-        # self.shortest_path_cache = pd.DataFrame(
-        #     np.zeros((df_flow.shape[0],len(self.network_graph.edges))),
-        #     columns=[edge for edge in self.network_graph.edges],
-        #     dtype=int
-        # )
-        self.shortest_path_cache = {path_idx : [] for path_idx in range(len(df_flow))}
+        self.shortest_path_cache = {path_idx : [] for path_idx in range(len(path_flows))}
         self.shortest_path_cache_reverse = {edge : [] for edge in self.network_graph.edges}
-        for path_idx in range(len(df_flow)):
-            path = df_flow.iloc[path_idx]
+        for path_idx in range(len(path_flows)):
+            path = path_flows[path_idx]
+
+            # path = df_flow.iloc[path_idx]
             start_station = path['de']
             end_station = path['vers']
             flow = path['nombre']
@@ -43,16 +38,8 @@ class StationNetworkSimul:
                 for s,t in nx.utils.pairwise(best_path):
                     self.shortest_path_cache[path_idx].append((s,t))
                     self.shortest_path_cache_reverse[(s,t)].append(path_idx)
-                    # self.shortest_path_cache[path_idx] = [(s,t) for s,t in nx.utils.pairwise(best_path)]
-
-                # for i in range(len(best_path)-1):
-                #     # self.shortest_path_cache[(best_path[i], best_path[i+1])].append(path_idx)
-                #     self.shortest_path_cache.iloc[path_idx][(best_path[i], best_path[i+1])] = 1
-        
-        # total_trafic = sum([node['traffic'] for node in nodes_traffic.values()])
-        # normalized_nodes_traffic = {node_idx : {'traffic' : node['traffic']/total_trafic} for node_idx, node in nodes_traffic.items()}
         nx.set_node_attributes(self.network_graph, nodes_traffic)
-    
+        
     def set_edges_traffic(self, df_flow):
         edges_traffic = {edge : {'traffic' : 0} for edge in self.network_graph.edges}
         self.shortest_path_cache = {path_idx : [] for path_idx in range(len(df_flow))}
@@ -194,9 +181,9 @@ class StationNetworkSimul:
                         complete_gps.append(random.choice(df_coords['GPS'].values))
 
                 for coord, node_station in zip([*df_coords['GPS'].values, *complete_gps], station_lines.values()):
-                    lat, lon = coord.split(', ')
-                    lat, lon = float(lat), float(lon)
-                    self.reverse_network_stations[node_station].update({'lon':lon, 'lat':lat})
+                    y, x = coord.split(', ')
+                    y, x = float(y), float(x)
+                    self.reverse_network_stations[node_station].update({'x':x, 'y':y})
             else:
                 unspecified_loc_nodes = [*unspecified_loc_nodes, *station_lines.values()]
                 
@@ -204,18 +191,18 @@ class StationNetworkSimul:
 
         unspecified_loc_nodes_pos = {}
         for node_station in unspecified_loc_nodes:
-            mean_lat, mean_lon = [], []
+            mean_y, mean_x = [], []
             for dist in range(min_dist,max_dist+1):
                 for neighbor in self.get_node_neighbors(node_station, distance=dist):
 
-                    lon = self.reverse_network_stations[neighbor].get('lon')
-                    lat = self.reverse_network_stations[neighbor].get('lat')
-                    if lon is not None and lat is not None:
-                        mean_lat.append(lat)
-                        mean_lon.append(lon)
+                    x = self.reverse_network_stations[neighbor].get('x')
+                    y = self.reverse_network_stations[neighbor].get('y')
+                    if x is not None and y is not None:
+                        mean_y.append(y)
+                        mean_x.append(x)
 
-                if len(mean_lat) > 0 and len(mean_lon) > 0:
-                    unspecified_loc_nodes_pos.update({node_station : {'lon' : sum(mean_lon)/len(mean_lon), 'lat': sum(mean_lat)/len(mean_lat)}})
+                if len(mean_y) > 0 and len(mean_x) > 0:
+                    unspecified_loc_nodes_pos.update({node_station : {'x' : sum(mean_x)/len(mean_x), 'y': sum(mean_y)/len(mean_y)}})
                     break
                 else:
                     print(node_station)
