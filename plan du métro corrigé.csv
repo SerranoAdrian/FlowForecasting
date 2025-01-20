@@ -66,7 +66,6 @@ de Ligne,de Station,vers Ligne,vers Station
 4,Montparnasse - Bienvenüe,13,Montparnasse - Bienvenüe
 4,Raspail,6,Raspail
 4,Denfert-Rochereau,6,Denfert-Rochereau
-5,Bobigny - Pablo Picasso, 1,Bobigny - Pablo Picasso
 5,Jaurès,2,Jaurès
 5,Stalingrad,2,Stalingrad
 5,Stalingrad,7,Stalingrad
@@ -101,7 +100,6 @@ de Ligne,de Station,vers Ligne,vers Station
 6,Nation,1,Nation
 6,Nation,2,Nation
 6,Nation,9,Nation
-7,La Courneuve - 8 Mai 1945, 1,La Courneuve - 8 Mai 1945
 7,Stalingrad,2,Stalingrad
 7,Stalingrad,5,Stalingrad
 7,Gare de l'Est,4,Gare de l'Est
@@ -118,7 +116,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7,Jussieu,10,Jussieu
 7,Place d'Italie,5,Place d'Italie
 7,Place d'Italie,6,Place d'Italie
-7,Villejuif - Louis Aragon, 7,Villejuif - Louis Aragon
 7bis,Louis Blanc,7,Louis Blanc
 7bis,Jaurès,2,Jaurès
 7bis,Jaurès,5,Jaurès
@@ -199,11 +196,7 @@ de Ligne,de Station,vers Ligne,vers Station
 12,Montparnasse - Bienvenüe,6,Montparnasse - Bienvenüe
 12,Montparnasse - Bienvenüe,13,Montparnasse - Bienvenüe
 12,Pasteur,6,Pasteur
-12,Porte de Versailles, 2,Porte de Versailles
-13,Les Courtilles, 1,Les Courtilles
 13,Porte de Clichy,14,Porte de Clichy
-13,Basilique de Saint-Denis, 1,Basilique de Saint-Denis
-13,Saint-Denis - Porte de Paris, 8,Saint-Denis - Porte de Paris
 13,Mairie de Saint-Ouen,14,Mairie de Saint-Ouen
 13,Place de Clichy,2,Place de Clichy
 13,Saint-Lazare,3,Saint-Lazare
@@ -216,7 +209,6 @@ de Ligne,de Station,vers Ligne,vers Station
 13,Montparnasse - Bienvenüe,4,Montparnasse - Bienvenüe
 13,Montparnasse - Bienvenüe,6,Montparnasse - Bienvenüe
 13,Montparnasse - Bienvenüe,12,Montparnasse - Bienvenüe
-13,Châtillon - Montrouge, 6,Châtillon - Montrouge
 14,Mairie de Saint-Ouen,13,Mairie de Saint-Ouen
 14,Porte de Clichy,13,Porte de Clichy
 14,Saint-Lazare,3,Saint-Lazare
@@ -419,7 +411,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7,Porte d'Ivry,7,Porte de Choisy
 7,Pierre et Marie Curie,7,Porte d'Ivry
 7,Mairie d'Ivry,7,Pierre et Marie Curie
-7bis,Louis Blanc,7bis,Mairie d'Ivry
 7bis,Jaurès,7bis,Louis Blanc
 7bis,Bolivar,7bis,Jaurès
 7bis,Buttes Chaumont,7bis,Bolivar
@@ -461,7 +452,6 @@ de Ligne,de Station,vers Ligne,vers Station
 8,Créteil - Université,8,Créteil - L'Échat
 8,Créteil - Préfecture,8,Créteil - Université
 8,Pointe du Lac,8,Créteil - Préfecture
-9,Pont de Sèvres,9,Pointe du Lac
 9,Billancourt,9,Pont de Sèvres
 9,Marcel Sembat,9,Billancourt
 9,Porte de Saint-Cloud,9,Marcel Sembat
@@ -567,7 +557,6 @@ de Ligne,de Station,vers Ligne,vers Station
 13,Mairie de Clichy,13,Gabriel Péri
 13,Porte de Clichy,13,Mairie de Clichy
 13,Brochant,13,Porte de Clichy
-13,Saint-Denis - Université,13,Brochant
 13,Basilique de Saint-Denis,13,Saint-Denis - Université
 13,Saint-Denis - Porte de Paris,13,Basilique de Saint-Denis
 13,Carrefour Pleyel,13,Saint-Denis - Porte de Paris
@@ -793,7 +782,6 @@ de Ligne,de Station,vers Ligne,vers Station
 7,Porte de Choisy,7,Porte d'Ivry
 7,Porte d'Ivry,7,Pierre et Marie Curie
 7,Pierre et Marie Curie,7,Mairie d'Ivry
-7bis,Mairie d'Ivry,7bis,Louis Blanc
 7bis,Louis Blanc,7bis,Jaurès
 7bis,Jaurès,7bis,Bolivar
 7bis,Bolivar,7bis,Buttes Chaumont
@@ -944,7 +932,6 @@ de Ligne,de Station,vers Ligne,vers Station
 13,Gabriel Péri,13,Mairie de Clichy
 13,Mairie de Clichy,13,Porte de Clichy
 13,Porte de Clichy,13,Brochant
-13,Brochant,13,Saint-Denis - Université
 13,Saint-Denis - Université,13,Basilique de Saint-Denis
 13,Basilique de Saint-Denis,13,Saint-Denis - Porte de Paris
 13,Saint-Denis - Porte de Paris,13,Carrefour Pleyel
