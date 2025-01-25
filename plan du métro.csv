@@ -520,7 +520,6 @@ de Ligne,de Station,vers Ligne,vers Station
 10,Cardinal Lemoine,10,Maubert - Mutualité
 10,Jussieu,10,Cardinal Lemoine
 10,Gare d'Austerlitz,10,Jussieu
-11,Châtelet,11,Gare d'Austerlitz
 11,Hôtel de Ville,11,Châtelet
 11,Rambuteau,11,Hôtel de Ville
 11,Arts et Métiers,11,Rambuteau
@@ -897,7 +896,6 @@ de Ligne,de Station,vers Ligne,vers Station
 10,Maubert - Mutualité,10,Cardinal Lemoine
 10,Cardinal Lemoine,10,Jussieu
 10,Jussieu,10,Gare d'Austerlitz
-11,Gare d'Austerlitz,11,Châtelet
 11,Châtelet,11,Hôtel de Ville
 11,Hôtel de Ville,11,Rambuteau
 11,Rambuteau,11,Arts et Métiers
