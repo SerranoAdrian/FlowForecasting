@@ -2,3 +2,4 @@ env/
 lib/
 viz/
 *__pycache__*
+*.gpickle
