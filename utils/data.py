@@ -29,12 +29,16 @@ def create_degraded_networks(net_simul : StationNetworkSimul, df_flow, num_delet
     return degraded_graphs
 
 
-def nx_to_pyg_data(network : nx.DiGraph, target_name, node_feature_names, edge_feature_names):
+def nx_to_pyg_data(network : nx.DiGraph, node_target_name, node_feature_names, edge_target_name, edge_feature_names):
+    assert not(node_target_name is None and edge_target_name is None), \
+    "Either 'node_target_name' or 'edge_target_name' needs to be specified."
     node_feature_tensor = torch.tensor(
         [
             [node[feature_name] for feature_name in node_feature_names] 
             for _, node in sorted(network.nodes.data())], dtype=torch.float) \
         if node_feature_names is not None else torch.tensor([i for i in sorted(network.nodes)], dtype=torch.int)
+    
+    node_target_tensor = torch.tensor([node[node_target_name] for _, node in sorted(network.nodes.data())], dtype=torch.float)
     
     edge_idx_tensor = torch.tensor([
             [edge[0] for edge in network.edges],
@@ -45,17 +49,29 @@ def nx_to_pyg_data(network : nx.DiGraph, target_name, node_feature_names, edge_f
             [edge[2][feature_name] for feature_name in edge_feature_names] for edge in sorted(network.edges.data())
             ], dtype=torch.float) if edge_feature_names is not None else None
     
-    target_tensor = torch.tensor([node[target_name] for _, node in sorted(network.nodes.data())], dtype=torch.float)
-    data = Data(x=node_feature_tensor, edge_index=edge_idx_tensor, y=target_tensor, edge_attr=edge_feature_tensor)
+    edge_target_tensor = torch.tensor([
+            edge[2][edge_target_name] for edge in sorted(network.edges.data())
+            ], dtype=torch.float) if edge_target_name is not None else None
+    
+    data = Data(
+        x=node_feature_tensor,
+        edge_index=edge_idx_tensor,
+        y=node_target_tensor,
+        ye=edge_target_tensor,
+        edge_attr=edge_feature_tensor
+    )
+
     return data
 
 
-def get_degraded_network_loader(degraded_networks, target_name, node_feature_names=None, edge_feature_names=None, **kwargs):
+def get_degraded_network_loader(degraded_networks, node_target_name=None, node_feature_names=None, edge_target_name=None, edge_feature_names=None, **kwargs):
+    
     degraded_networks_pyg = [
         nx_to_pyg_data(
             degraded_network,
-            target_name=target_name,
+            node_target_name=node_target_name,
             node_feature_names=node_feature_names,
+            edge_target_name=edge_target_name,
             edge_feature_names=edge_feature_names,
             ) for degraded_network in degraded_networks
         ]

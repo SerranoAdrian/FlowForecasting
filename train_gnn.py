@@ -6,6 +6,8 @@ import pandas as pd
 import torch.optim as optim
 from collections import defaultdict
 
+### TRAIN & EVAL
+
 def train_node_gnn_model(node_gnn_model, config, train_loader, dev_loader):
     
     epochs = config['epochs']
@@ -49,6 +51,49 @@ def eval_node_gnn_model(node_gnn_model, loader, config):
         
         return eval_metrics
 
+# def train_edge_gnn_model(edge_gnn_model, config, train_loader, dev_loader):
+    
+#     epochs = config['epochs']
+#     lr = config['lr']
+#     criterion = config['criterion']
+
+#     optimizer = optim.Adam(edge_gnn_model.parameters(), lr=lr)
+
+
+#     for epoch in range(epochs):
+#         edge_gnn_model.train()
+#         train_loss = []
+#         edge_gnn_model.train()
+#         for data in train_loader:
+#             optimizer.zero_grad()
+#             x, edge_index, edge_weight = data.x, data.edge_index, data.edge_attr
+#             output = node_gnn_model(x, edge_index, edge_weight)
+#             loss = criterion(output.squeeze(), data.y)
+#             train_loss.append(loss.item())
+#             loss.backward()
+#             optimizer.step()
+        
+#         eval_metrics = eval_node_gnn_model(node_gnn_model, dev_loader, config)
+#         metrics_result = "\t".join([f"{metric_name}: {metric_value}" for metric_name, metric_value in eval_metrics.items()])
+#         print()
+#         print(f'Epoch {epoch} -', f'Train loss: {np.mean(train_loss)}', 'Eval:', metrics_result)
+        
+
+# def eval_edge_gnn_model(node_gnn_model, loader, config):
+#     eval_metrics = {metric_name : [] for metric_name in config['metrics'].keys()}
+#     node_gnn_model.eval()
+#     with torch.no_grad():
+#         for data in loader:
+#             x, edge_index, edge_weight = data.x, data.edge_index, data.edge_attr
+#             output = node_gnn_model(x, edge_index, edge_weight)
+#             for metric_name, metric in config['metrics'].items():
+#                 eval_metrics[metric_name].append(metric(output.squeeze(), data.y))
+        
+#         for metric_name in config['metrics'].keys():
+#             eval_metrics[metric_name] = np.mean(eval_metrics[metric_name])
+        
+#         return eval_metrics
+### METRICS
 
 def MAPE_loss(reduction='mean'):
     def MAPE(y_pred, y_true):
@@ -90,6 +135,8 @@ def get_metric_per_node_per_network(nodes_gnn_model, loader, metric, network_sim
     df = df.T
     df = df.rename(columns={len(loader) : 'line'})
     return df
+
+### PLOT
 
 def boxplot_node_metric(df, node_idx, network_simul, metric_name):
     plt.figure(figsize=(3,7))

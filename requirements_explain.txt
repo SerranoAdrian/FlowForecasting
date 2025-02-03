@@ -1,0 +1,8 @@
+numpy
+geopy
+networkx
+matplotlib
+pandas
+seaborn
+torch_geometric
+torch --index-url https://download.pytorch.org/whl/cpu
