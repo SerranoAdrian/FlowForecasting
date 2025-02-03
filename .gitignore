@@ -1,4 +1,5 @@
 env/
 lib/
 viz/
+venv/
 *__pycache__*
