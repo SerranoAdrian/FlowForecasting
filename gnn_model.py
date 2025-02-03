@@ -1,34 +1,80 @@
 import torch
 import torch.nn as nn
-from torch_geometric.nn.conv import GCNConv
-import torch.nn.functional as F
+from torch_geometric.nn.conv import GCNConv, GATv2Conv
+from torch_geometric.nn import Sequential
 
 
-class StationFlowGNN(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim):
-        super(StationFlowGNN, self).__init__()
-        self.conv1 = GCNConv(input_dim, hidden_dim)
-        self.conv2 = GCNConv(hidden_dim, hidden_dim)
-        self.fc = nn.Linear(hidden_dim, output_dim)  # Output_dim = 1 pour chaque nœud
-        self.relu = nn.ReLU()
-        self.sigmoid = nn.Sigmoid()
+class StationFlowGCN(nn.Module):
+    def __init__(self, num_nodes : int, input_dim: int, output_dim: int, embeddings=None, freeze=True):
+        super(StationFlowGCN, self).__init__()
 
-    # def forward(self, data):
-    #     x, edge_index = data.x, data.edge_index
-    #     # Propagation à travers les couches GNN
-    #     x = self.relu(self.conv1(x, edge_index))  # Première couche GCN
-    #     x = self.relu(self.conv2(x, edge_index))  # Deuxième couche GCN
-    #     # Projection sur une seule dimension pour chaque nœud (flux de passagers)
-    #     x = self.fc(x)
-    #     return self.sigmoid(x)  # Sortie de dimension [N, 1], où N est le nombre de nœuds
-    
-    def forward(self, x, edge_index):
-        # Propagation à travers les couches GNN
-        x = self.relu(self.conv1(x, edge_index))  # Première couche GCN
-        x = self.relu(self.conv2(x, edge_index))  # Deuxième couche GCN
-        # Projection sur une seule dimension pour chaque nœud (flux de passagers)
-        x = self.fc(x)
-        return self.sigmoid(x)  # Sortie de dimension [N, 1], où N est le nombre de nœuds
+        self.use_embeddings = False if embeddings is None else True
+        
+        if self.use_embeddings:
+            if isinstance(embeddings, torch.Tensor):
+                self.node_emb = nn.Embedding.from_pretrained(embeddings, freeze=freeze)
+            elif embeddings == 'initialized':
+                self.node_emb = nn.Embedding(num_nodes, input_dim)
+            else:
+                raise(Exception)
+        
+        self.gcn = Sequential('x, edge_index, edge_weight',
+            [(GCNConv(input_dim, 128), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU(),
+            (GCNConv(128, 64), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU(),
+            (GCNConv(64, 64), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU(),
+            (GCNConv(64, 32), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU(),
+            (GCNConv(32, 32), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU(),
+            (GCNConv(32, output_dim), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU()],
+        )
+
+    def forward(self,x, edge_index, edge_weight=None):
+        
+        if self.use_embeddings:
+            x = self.node_emb(x)
+
+        x = self.gcn(x, edge_index, edge_weight)
+        return x
+
+
+class StationFlowGAT(nn.Module):
+    def __init__(self, num_nodes : int, input_dim: int, output_dim: int, edge_dim=None, embeddings=None, freeze=True, num_heads=1):
+        super(StationFlowGAT, self).__init__()
+
+        self.use_embeddings = False if embeddings is None else True
+        
+        if self.use_embeddings:
+            if isinstance(embeddings, torch.Tensor):
+                self.node_emb = nn.Embedding.from_pretrained(embeddings, freeze=freeze)
+            elif embeddings == 'initialized':
+                self.node_emb = nn.Embedding(num_nodes, input_dim)
+            else:
+                raise(Exception)
+            
+        self.gat = Sequential('x, edge_index, edge_attr',
+            [(GATv2Conv(input_dim, 64, heads=num_heads, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
+            nn.ReLU(),
+            (GATv2Conv(64*num_heads, 32, heads=num_heads, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
+            nn.ReLU(),
+            (GATv2Conv(32*num_heads, 32, heads=num_heads, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
+            nn.ReLU(),
+            (GATv2Conv(32*num_heads, output_dim, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
+            nn.ReLU()],
+        )
+
+    def forward(self,x, edge_index, edge_attr=None):
+        
+        if self.use_embeddings:
+            x = self.node_emb(x)
+        x = self.gat(x, edge_index, edge_attr)     
+        
+        return x  
+
 
 
 class InterStationFlowGNN(nn.Module):

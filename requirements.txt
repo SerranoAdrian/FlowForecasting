@@ -2,7 +2,11 @@ numpy
 geopy
 pyvis
 pandas
+seaborn
 networkx
 matplotlib
 torch_geometric
 torch --index-url https://download.pytorch.org/whl/cpu
+mapie
+torchcp
+torch-cluster

@@ -3,3 +3,4 @@ lib/
 viz/
 venv/
 *__pycache__*
+*.gpickle
