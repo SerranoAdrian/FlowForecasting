@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch_geometric.nn.conv import GCNConv, GATv2Conv
 from torch_geometric.nn import Sequential
 
-
 class StationFlowGCN(nn.Module):
     def __init__(self, num_nodes : int, input_dim: int, output_dim: int, embeddings=None, freeze=True):
         super(StationFlowGCN, self).__init__()
@@ -18,7 +17,7 @@ class StationFlowGCN(nn.Module):
             else:
                 raise(Exception)
         
-        self.gcn = Sequential('x, edge_index, edge_weight',
+        self.conv = Sequential('x, edge_index, edge_weight',
             [(GCNConv(input_dim, 128), 'x, edge_index, edge_weight -> x'),
             nn.ReLU(),
             (GCNConv(128, 64), 'x, edge_index, edge_weight -> x'),
@@ -28,9 +27,25 @@ class StationFlowGCN(nn.Module):
             (GCNConv(64, 32), 'x, edge_index, edge_weight -> x'),
             nn.ReLU(),
             (GCNConv(32, 32), 'x, edge_index, edge_weight -> x'),
+            nn.ReLU()]
+        )
+
+        self.node_head = nn.Sequential(
+            nn.Linear(32, 32),
             nn.ReLU(),
-            (GCNConv(32, output_dim), 'x, edge_index, edge_weight -> x'),
-            nn.ReLU()],
+            nn.Linear(32, output_dim),
+            nn.ReLU(),
+        )
+
+        self.edge_head = nn.Sequential(
+            nn.Linear(2 * 32, 64),
+            nn.ReLU(),
+            nn.Linear(64, 32),
+            nn.ReLU(),
+            nn.Linear(32, 32),
+            nn.ReLU(),
+            nn.Linear(32, output_dim),
+            nn.ReLU(),
         )
 
     def forward(self,x, edge_index, edge_weight=None):
@@ -38,8 +53,13 @@ class StationFlowGCN(nn.Module):
         if self.use_embeddings:
             x = self.node_emb(x)
 
-        x = self.gcn(x, edge_index, edge_weight)
-        return x
+        x = self.conv(x, edge_index, edge_weight)
+        x_e = torch.cat([x[edge_index[0]], x[edge_index[1]]], dim=1)
+
+        node_output = self.node_head(x)
+        edge_output = self.edge_head(x_e)
+
+        return node_output, edge_output
 
 
 class StationFlowGAT(nn.Module):
@@ -62,49 +82,40 @@ class StationFlowGAT(nn.Module):
             (GATv2Conv(64*num_heads, 32, heads=num_heads, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
             nn.ReLU(),
             (GATv2Conv(32*num_heads, 32, heads=num_heads, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
+            nn.ReLU(),],
+        )
+        
+        self.node_head = nn.Sequential(
+            nn.Linear(32*num_heads, 32),
             nn.ReLU(),
-            (GATv2Conv(32*num_heads, output_dim, edge_dim=edge_dim), 'x, edge_index, edge_attr -> x'),
-            nn.ReLU()],
+            nn.Linear(32, output_dim),
+            nn.ReLU(),
+        )
+
+        self.edge_head = nn.Sequential(
+            nn.Linear(2 * 32*num_heads, 64),
+            nn.ReLU(),
+            nn.Linear(64, 32),
+            nn.ReLU(),
+            nn.Linear(32, 32),
+            nn.ReLU(),
+            nn.Linear(32, output_dim),
+            nn.ReLU(),
         )
 
     def forward(self,x, edge_index, edge_attr=None):
         
         if self.use_embeddings:
             x = self.node_emb(x)
+
         x = self.gat(x, edge_index, edge_attr)     
+        x_e = torch.cat([x[edge_index[0]], x[edge_index[1]]], dim=1)
+
+        node_output = self.node_head(x)
+        edge_output = self.edge_head(x_e)
         
-        return x  
+        return node_output, edge_output
 
-
-
-class InterStationFlowGNN(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim):
-        super(InterStationFlowGNN, self).__init__()
-        self.conv1 = GCNConv(input_dim, hidden_dim)
-        self.conv2 = GCNConv(hidden_dim, hidden_dim)
-        self.edge_mlp = nn.Sequential(
-            nn.Linear(2 * hidden_dim, hidden_dim),  # Combinaison des deux nœuds reliés par une arête
-            nn.ReLU(),
-            nn.Linear(hidden_dim, output_dim)      # Prédiction finale pour chaque arête
-        )
-        self.relu = nn.ReLU()
-
-    def forward(self, data):
-        x, edge_index = data.x, data.edge_index
-        # Étape 1 : Propagation des caractéristiques des nœuds
-        x = self.relu(self.conv1(x, edge_index))  # Première couche GCN
-        x = self.relu(self.conv2(x, edge_index))  # Deuxième couche GCN
-
-        # Étape 2 : Construction des représentations pour les arêtes
-        # edge_index[0] = indices des nœuds sources
-        # edge_index[1] = indices des nœuds cibles
-        edge_features = torch.cat([x[edge_index[0]], x[edge_index[1]]], dim=1)  # [E, 2*hidden_dim]
-
-        # Étape 3 : Prédictions pour les arêtes
-        edge_predictions = self.edge_mlp(edge_features)  # [E, output_dim]
-
-        return edge_predictions
-    
 
 # Définition du modèle GCN avec régression quantile
 class QuantileGCN(torch.nn.Module):
