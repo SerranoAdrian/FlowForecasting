@@ -38,11 +38,13 @@ def nx_to_pyg_data(network : nx.DiGraph, node_target_name, node_feature_names, e
             for _, node in sorted(network.nodes.data())], dtype=torch.float) \
         if node_feature_names is not None else torch.tensor([i for i in sorted(network.nodes)], dtype=torch.int)
     
-    node_target_tensor = torch.tensor([node[node_target_name] for _, node in sorted(network.nodes.data())], dtype=torch.float)
+    node_target_tensor = torch.tensor(
+        [node[node_target_name] for _, node in sorted(network.nodes.data())],
+        dtype=torch.float) if node_target_name is not None else None
     
     edge_idx_tensor = torch.tensor([
-            [edge[0] for edge in network.edges],
-            [edge[1] for edge in network.edges]
+            [edge[0] for edge in sorted(network.edges)],
+            [edge[1] for edge in sorted(network.edges)]
             ], dtype=torch.long)
     
     edge_feature_tensor = torch.tensor([
