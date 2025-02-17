@@ -207,3 +207,75 @@ class StationNetworkSimul:
                     continue
         
         nx.set_node_attributes(self.network_graph, unspecified_loc_nodes_pos)
+
+
+
+
+# class TubeLondonNetwork:
+#     def __init__(self, df_stations : pd.DataFrame, df_pos : pd.DataFrame):
+#         self.graph = nx.DiGraph()
+#         self
+
+
+
+
+
+
+
+#         self._init_network_dicts(df_stations=df_stations)
+#         self._init_network_graph(df_stations=df_stations)
+#         self._set_nodes_positions(df_pos=df_pos)
+    
+#     def set_edges_weights(self):
+#         for edge in self.network_graph.edges:
+#             start_node = self.network_graph.nodes[edge[0]]
+#             end_node = self.network_graph.nodes[edge[1]]
+#             distance = geopy.distance.geodesic((start_node['y'], start_node['x']), (end_node['y'], end_node['x'])).km
+#             self.network_graph.edges[edge]['weight'] = 1/distance if distance != 0 else 1.0
+    
+
+#     def set_nodes_traffic(self, G, df_flow=None):
+#         nodes_traffic = {node : {'traffic' : 0} for node in G.nodes}
+        
+#         if len(nx.get_edge_attributes(G, 'traffic')) == 0:
+#             self.set_edges_traffic(G, df_flow)
+        
+#         edges_traffic = nx.get_edge_attributes(G, 'traffic')
+        
+#         for node in G.nodes:
+#             in_edges = G.in_edges(node)
+#             nodes_traffic[node]['traffic']=sum(
+#                 edges_traffic[in_edge]
+#                 for in_edge in in_edges
+#             )
+        
+#         nx.set_node_attributes(G, nodes_traffic)
+
+        
+#     def set_edges_traffic(self, G, df_flow):
+
+#         edges_traffic = {edge : {'traffic' : 0} for edge in G.edges}
+
+#         self.shortest_path_cache = {path_idx : [] for path_idx in range(len(df_flow))}
+#         self.shortest_path_cache_reverse = {edge : [] for edge in G.edges}
+
+#         for path_idx in range(len(df_flow)):
+            
+#             path = df_flow.iloc[path_idx]
+#             start_station = path['de']
+#             end_station = path['vers']
+#             flow = path['nombre']
+#             best_path = self.get_best_path(G, start_station, end_station)
+            
+#             if best_path is not None:
+                
+#                 for edge in nx.utils.pairwise(best_path):
+                    
+#                     edges_traffic[edge]['traffic']+=flow
+#                     self.shortest_path_cache[path_idx].append(edge)
+#                     self.shortest_path_cache_reverse[edge].append(path_idx)
+
+#         nx.set_edge_attributes(G, edges_traffic)
+    
+
+#     def get_best_path(self, G, start_station, end_station):
