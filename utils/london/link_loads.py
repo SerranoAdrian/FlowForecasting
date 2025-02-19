@@ -46,7 +46,7 @@ def get_graph_attributes(folder_path):
     - num_nodes: the number of unique link (inter-station)
     - edge_index: the list of nodes that are linked, e.g. (a,b) means from node a you can go to node b
     - node_mapping: dictionary that gives relation between the link (string) to node_id (int)
-    - df_list: list of dfs obtained from processing csv and link columns, chronologically order !!!!!TO DO
+    - df_list: list of dfs obtained from processing csv and link columns, chronologically order
     """
     link_set = set([])
     edge_list_set = set([])
@@ -146,13 +146,22 @@ def add_missing_nodes(df, node_mapping, num_nodes):
     return df
 
 
+def add_missing_nodes_2(df, node_mapping, num_nodes):
+    df.index = [node_mapping[link] for link in df['Link']] # Change index as node_id
+    df = df.iloc[:,17:93] # Keep only flows columns between 0500-0000
+    df = df.groupby(level=0).sum() # Make sure of the node unicty
+    full_index = pd.Index(range(num_nodes), name="node_id")
+    df = df.reindex(full_index, fill_value=0) # fill missing nodes values
+    return df
+
+
 def build_quarter_hour_data(df, filename, num_nodes):
     """
     return: 
     - df_qhrs: the list of 24*4 df for each quarter-hour (encode temporal features and the flow)
     """
 
-    df_qhrs = [df.iloc[:,i] for i in range(df.shape[1])]
+    df_qhrs = [df.iloc[:,i] for i in range(df.shape[1])] # list of dataframe of quarter hour flow
     day = filename.split('.')[0][-3:]
     if day not in ['FRI','SAT','SUN']:
         day = 'MTWT'
@@ -187,7 +196,6 @@ def get_day_time(i):
 
 def df_to_graph(df, edge_index):
     x = torch.tensor(df[['MTWT','FRI', 'SAT','SUN','Early', 'AM Peak', 'Midday','PM Peak', 'Evening', 'Late']].values, dtype=torch.float32)
-    edge_index = edge_index
     y = torch.tensor(df[["Flow"]].values, dtype=torch.float32)
     return Data(x=x, edge_index=edge_index, y=y)
 
