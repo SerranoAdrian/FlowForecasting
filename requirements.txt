@@ -11,3 +11,4 @@ mapie
 torchcp
 torch-cluster
 openpyxl
+torch-geometric-temporal
