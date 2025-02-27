@@ -12,3 +12,6 @@ torchcp
 torch-cluster
 openpyxl
 torch-geometric-temporal
+plotly[express]
+nbformat>=4.2.0
+dash
