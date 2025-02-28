@@ -15,3 +15,4 @@ torch-geometric-temporal
 plotly[express]
 nbformat>=4.2.0
 dash
+dash-bootstrap-components
