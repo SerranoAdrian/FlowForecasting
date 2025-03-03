@@ -54,7 +54,7 @@ class GraphSequenceDayDataset(Dataset):
         return len(self.graphs) * self.accesible_data_per_day
 
     def __getitem__(self, idx):
-        day = idx//self.accesible_data_per_day - 1
+        day = idx//self.accesible_data_per_day
         qh = idx%self.accesible_data_per_day
 
         day_graphs = self.graphs[day]
@@ -81,3 +81,11 @@ def build_train_test_loaders_2(graphs, window_size, train_split=0.8, batch_size=
     test_loader = DataLoader(test_dataset, batch_size, shuffle)
 
     return train_loader, test_loader
+
+
+def build_loaders_from_graphs(graphs, window_size, batch_size=1, shuffle=True):
+
+    dataset = GraphSequenceDayDataset(graphs, window_size)  
+    loader = DataLoader(dataset, batch_size, shuffle)
+
+    return loader
