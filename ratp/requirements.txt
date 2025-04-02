@@ -1,8 +1,9 @@
 numpy
 geopy
-networkx
-matplotlib
+pyvis
 pandas
 seaborn
+networkx
+matplotlib
 torch_geometric
 torch --index-url https://download.pytorch.org/whl/cpu
