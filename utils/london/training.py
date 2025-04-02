@@ -29,7 +29,7 @@ def get_flow_forecasting_metrics(pred, target):
         MAPE_high_target = torch.mean(torch.abs(high_pred - high_target) / (high_target))
         MAE_low_target = torch.mean(torch.abs(low_pred - low_target))
 
-        return MAPE_high_target, MAE_low_target
+        return float(MAPE_high_target), float(MAE_low_target)
 
 
 
@@ -52,6 +52,5 @@ def test_model(model, test_loader):
         MAE_low_target += float(MAE_low_target_)
 
     print(f"Test MAE: {loss_mae / len(test_loader)}")
-
     print(f"MAPE for high targets: {MAPE_high_target / len(test_loader)}")
     print(f"MAE for low targets: {MAE_low_target/ len(test_loader)}")
