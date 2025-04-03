@@ -16,6 +16,11 @@ def train_gnn_model(node_gnn_model, config, train_loader, dev_loader):
     train_loss = {
         type_loss : [] for type_loss in config['criterion'].keys()
     }
+
+    eval_metrics = {
+        type_metric : {'node' : [], 'edge' : []} for type_metric in config['metrics'].keys()
+    }
+
     for epoch in range(epochs):
         node_gnn_model.train()
         epoch_loss = {
@@ -46,15 +51,18 @@ def train_gnn_model(node_gnn_model, config, train_loader, dev_loader):
         
         for type_loss in train_loss.keys():
             train_loss[type_loss].append(np.mean(epoch_loss[type_loss]))
-        train_results = " - ".join([f'{type_loss}: {np.mean(loss_values)}' for type_loss, loss_values in train_loss.items()])
+        epoch_train_results = " - ".join([f'{type_loss}: {np.mean(loss_values)}' for type_loss, loss_values in train_loss.items()])
         
-        eval_metrics = eval_gnn_model(node_gnn_model, dev_loader, config)
-        metric_results_node = "\t".join([f"{metric_name}: {metric_value}" for metric_name, metric_value in eval_metrics['node'].items()])
-        metric_results_edge = "\t".join([f"{metric_name}: {metric_value}" for metric_name, metric_value in eval_metrics['edge'].items()])
+        epoch_eval_metrics = eval_gnn_model(node_gnn_model, dev_loader, config)
+        metric_results_node = "\t".join([f"{metric_name}: {metric_value}" for metric_name, metric_value in epoch_eval_metrics['node'].items()])
+        metric_results_edge = "\t".join([f"{metric_name}: {metric_value}" for metric_name, metric_value in epoch_eval_metrics['edge'].items()])
         metric_results = f'Node - {metric_results_node}\nEdge - {metric_results_edge}'
+        for metric in eval_metrics.keys():
+            eval_metrics[metric]['node'].append(epoch_eval_metrics['node'][metric])
+            eval_metrics[metric]['edge'].append(epoch_eval_metrics['edge'][metric])
         
         print('Epoch', epoch)
-        print('TRAIN:', train_results)
+        print('TRAIN:', epoch_train_results)
         print('EVAL:', metric_results)
         print()
 

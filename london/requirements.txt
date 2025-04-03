@@ -1,6 +1,5 @@
 numpy
 geopy
-pyvis
 pandas
 seaborn
 networkx
